@@ -3,7 +3,7 @@ from myllm.MyApi import geminiModel
 def test(prompt):
     model = geminiModel()
     response = model.generate_content(prompt)
-    print(response.txt)
+    print(response.text)
 
 
 

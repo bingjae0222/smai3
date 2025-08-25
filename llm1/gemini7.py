@@ -1,17 +1,23 @@
-import requests
-from myllm.MyApi import geminiModel
 from io import BytesIO
+
+import requests
 from PIL import Image
 
-def test(prompt,img):
+from myllm.MyApi import geminiModel
+
+def test(prompt, img):
     model = geminiModel()
-    response = model.generate_content([prompt,img])
+    response = model.generate_content( [prompt, img] )
     print(response.text)
 
-
 if __name__ == '__main__':
-    image_url = "https://images.unsplash.com/photo-1624552184280-9e9631bbeee9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMTc3M3wwfDF8c2VhcmNofDJ8fGNva2UlMjB8ZW58MHx8fHwxNjk1MjE3NjAwfDA&ixlib=rb-4.0.3&q=80&w=1200"
-    respose_image = requests.get(image_url)
-    img = Image.open(BytesIO(respose_image.content))
-    prompt = "이 이미지의 영양 성분,당 함류,칼로리알려줘"
-    test(prompt,img)
+    image_url = "https://img.danawa.com/prod_img/500000/492/722/img/1722492_1.jpg?_v=20200819161846"  # 실제 이미지 URL로 교체
+    response_image = requests.get(image_url)
+    img = Image.open(BytesIO(response_image.content))
+    prompt = "이미지에 있는 음료의 영양성분과 칼로리 당함유 양을 알려줘"
+    test(prompt, img)
+
+
+
+
+

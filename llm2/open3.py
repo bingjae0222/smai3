@@ -25,6 +25,7 @@ def test(imgName, prompt):
     )
     print(response.choices[0].message.content)
 
+    # 결과를 음성으로 변환 하다.
     resultMp3 = "result.mp3"
     response = model.audio.speech.create(
         model="tts-1",

@@ -6,11 +6,8 @@ def test(prompt):
     print(response.text)
 
 if __name__ == '__main__':
-    question = "인공지능이란 무엇인가요?"
-
-    prompt = f"'{question}'에 대해 설명해 줘."
-
-    test(prompt)
+    code_prompt = "Python으로 피보나치 수열을 계산하는 함수를 작성해 줘."
+    test(code_prompt)
 
 
 

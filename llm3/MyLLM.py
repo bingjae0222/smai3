@@ -125,16 +125,38 @@ def makeImages(prompt, name, num):
         imgname = f"img/{name.split('.')[0]}_{n}.png"
         urllib.request.urlretrieve(data.url, imgname)
 
+
+from PIL import Image
+import urllib.request, base64, os
+
+
 def cloneImage(imgName, num):
     openModel = openAiModel()
-    response = openModel.images.create_variation(
-        model="dall-e-2",
-        image=open("img/"+imgName, "rb"),
-        n=num,
-        size="1024x1024"
-    )
-    for n,data in enumerate(response.data):
+
+    # 1. 파일 경로
+    filepath = os.path.join("img", imgName)
+
+    # 2. 무조건 PNG 변환
+    img = Image.open(filepath).convert("RGBA")
+    png_path = filepath if imgName.lower().endswith(".png") else filepath.split('.')[0] + "_tmp.png"
+    img.save(png_path, "PNG")
+
+    # 3. OpenAI API 호출
+    with open(png_path, "rb") as f:
+        response = openModel.images.create_variation(
+            model="dall-e-2",
+            image=f,
+            n=num,
+            size="1024x1024"
+        )
+
+    # 4. 결과 저장
+    for n, data in enumerate(response.data):
         print(n)
         print(data.url)
         name = f"img/{imgName.split('.')[0]}_clone_{n}.png"
         urllib.request.urlretrieve(data.url, name)
+
+    # 임시 파일 삭제 (필요 시)
+    if not imgName.lower().endswith(".png") and os.path.exists(png_path):
+        os.remove(png_path)
